@@ -14,18 +14,18 @@ module WhatsrbCloud
       end
 
       def create(**params)
-        response = @connection.post('/webhooks', params)
-        Objects::Webhook.new(response)
+        response = @connection.post('/webhooks', { webhook: params })
+        Objects::Webhook.new(response['data'])
       end
 
       def retrieve(id)
         response = @connection.get("/webhooks/#{id}")
-        Objects::Webhook.new(response)
+        Objects::Webhook.new(response['data'])
       end
 
       def update(id, **params)
-        response = @connection.patch("/webhooks/#{id}", params)
-        Objects::Webhook.new(response)
+        response = @connection.patch("/webhooks/#{id}", { webhook: params })
+        Objects::Webhook.new(response['data'])
       end
 
       def delete(id)

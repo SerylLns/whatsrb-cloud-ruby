@@ -25,31 +25,28 @@ module WhatsrbCloud
         messages_resource.create(to: to, text: text)
       end
 
-      def send_image(to:, url:, caption: nil)
-        params = { to: to, message_type: 'image', content: { url: url, caption: caption }.compact }
-        messages_resource.create(**params)
+      def send_image(to:, url:)
+        messages_resource.create(to: to, message_type: 'image', content: url)
       end
 
-      def send_document(to:, url:, filename: nil)
-        params = { to: to, message_type: 'document', content: { url: url, filename: filename }.compact }
-        messages_resource.create(**params)
+      def send_document(to:, url:)
+        messages_resource.create(to: to, message_type: 'document', content: url)
       end
 
       def send_video(to:, url:)
-        messages_resource.create(to: to, message_type: 'video', content: { url: url })
+        messages_resource.create(to: to, message_type: 'video', content: url)
       end
 
       def send_audio(to:, url:)
-        messages_resource.create(to: to, message_type: 'audio', content: { url: url })
+        messages_resource.create(to: to, message_type: 'audio', content: url)
       end
 
       def send_location(to:, latitude:, longitude:)
-        messages_resource.create(to: to, message_type: 'location',
-                                 content: { latitude: latitude, longitude: longitude })
+        messages_resource.create(to: to, message_type: 'location', content: "#{latitude},#{longitude}")
       end
 
       def send_contact(to:, name:, phone:)
-        messages_resource.create(to: to, message_type: 'contact', content: { name: name, phone: phone })
+        messages_resource.create(to: to, message_type: 'contact', content: "#{name}:#{phone}")
       end
 
       def messages

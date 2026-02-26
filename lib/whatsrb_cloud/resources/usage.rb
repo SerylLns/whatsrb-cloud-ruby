@@ -8,7 +8,8 @@ module WhatsrbCloud
       end
 
       def fetch
-        @connection.get('/usage')
+        response = @connection.get('/usage')
+        response['data']
       end
     end
   end

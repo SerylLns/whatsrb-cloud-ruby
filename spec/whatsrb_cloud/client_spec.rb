@@ -38,10 +38,12 @@ RSpec.describe WhatsrbCloud::Client do
       expect(client.webhooks).to be_a(WhatsrbCloud::Resources::Webhooks)
     end
 
-    it 'fetches usage' do
-      FakeServer.stub_get('/usage', response: { 'messages_sent' => 42 })
+    it 'fetches usage unwrapped from data key' do
+      FakeServer.stub_get('/usage', response: {
+                            'data' => { 'plan' => 'free', 'sessions' => { 'used' => 1, 'limit' => 1 } }
+                          })
       result = client.usage
-      expect(result['messages_sent']).to eq(42)
+      expect(result['plan']).to eq('free')
     end
   end
 end

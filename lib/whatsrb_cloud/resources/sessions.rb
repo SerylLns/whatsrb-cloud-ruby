@@ -15,13 +15,13 @@ module WhatsrbCloud
       end
 
       def create(**params)
-        response = @connection.post('/sessions', params)
-        Objects::Session.new(response, client: @client)
+        response = @connection.post('/sessions', { session: params })
+        Objects::Session.new(response['data'], client: @client)
       end
 
       def retrieve(id)
         response = @connection.get("/sessions/#{id}")
-        Objects::Session.new(response, client: @client)
+        Objects::Session.new(response['data'], client: @client)
       end
 
       def delete(id)

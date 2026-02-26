@@ -25,7 +25,7 @@ RSpec.describe WhatsrbCloud::Resources::Sessions do
   describe '#create' do
     it 'creates a session and returns a Session object' do
       FakeServer.stub_post('/sessions', response: {
-                             'id' => 'sess_new', 'name' => 'My Bot', 'status' => 'initializing'
+                             'data' => { 'id' => 'sess_new', 'name' => 'My Bot', 'status' => 'connecting' }
                            })
 
       session = client.sessions.create(name: 'My Bot')
@@ -34,10 +34,12 @@ RSpec.describe WhatsrbCloud::Resources::Sessions do
       expect(session.name).to eq('My Bot')
     end
 
-    it 'sends the correct params' do
+    it 'wraps params in session key' do
       stub = stub_request(:post, "#{FakeServer::BASE}/sessions")
-             .with(body: '{"name":"My Bot"}')
-             .to_return(status: 200, body: '{"id":"sess_new"}', headers: FakeServer.json_headers)
+             .with(body: '{"session":{"name":"My Bot"}}')
+             .to_return(status: 200,
+                        body: '{"data":{"id":"sess_new"}}',
+                        headers: FakeServer.json_headers)
 
       client.sessions.create(name: 'My Bot')
       expect(stub).to have_been_requested
@@ -45,9 +47,12 @@ RSpec.describe WhatsrbCloud::Resources::Sessions do
   end
 
   describe '#retrieve' do
-    it 'returns a Session object' do
+    it 'returns a Session object, unwrapping data' do
       FakeServer.stub_get('/sessions/sess_1', response: {
-                            'id' => 'sess_1', 'name' => 'Bot', 'status' => 'connected', 'phone_number' => '+33612345678'
+                            'data' => {
+                              'id' => 'sess_1', 'name' => 'Bot', 'status' => 'connected',
+                              'phone_number' => '+33612345678', 'qr_code' => nil
+                            }
                           })
 
       session = client.sessions.retrieve('sess_1')

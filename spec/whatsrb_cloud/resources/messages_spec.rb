@@ -24,10 +24,12 @@ RSpec.describe WhatsrbCloud::Resources::Messages do
   end
 
   describe '#retrieve' do
-    it 'returns a Message object' do
+    it 'returns a Message object, unwrapping data' do
       FakeServer.stub_get('/sessions/sess_abc/messages/msg_1', response: {
-                            'id' => 'msg_1', 'to' => '+33600000001', 'status' => 'sent',
-                            'message_type' => 'text', 'content' => 'Hello!'
+                            'data' => {
+                              'id' => 'msg_1', 'to' => '+33600000001', 'status' => 'sent',
+                              'message_type' => 'text', 'content' => 'Hello!'
+                            }
                           })
 
       msg = messages.retrieve('msg_1')
@@ -38,11 +40,11 @@ RSpec.describe WhatsrbCloud::Resources::Messages do
   end
 
   describe '#create' do
-    it 'sends a text message' do
+    it 'sends a text message with text: shorthand' do
       stub = stub_request(:post, "#{FakeServer::BASE}/sessions/sess_abc/messages")
-             .with(body: '{"to":"+33600000001","text":"Hello!"}')
+             .with(body: '{"message":{"to":"+33600000001","message_type":"text","content":"Hello!"}}')
              .to_return(status: 200,
-                        body: '{"id":"msg_new","to":"+33600000001","status":"queued","message_type":"text"}',
+                        body: '{"data":{"id":"msg_new","to":"+33600000001","status":"queued","message_type":"text"}}',
                         headers: FakeServer.json_headers)
 
       msg = messages.create(to: '+33600000001', text: 'Hello!')
@@ -51,24 +53,25 @@ RSpec.describe WhatsrbCloud::Resources::Messages do
       expect(stub).to have_been_requested
     end
 
-    it 'sends an image message' do
+    it 'sends an image message with explicit message_type' do
       stub = stub_request(:post, "#{FakeServer::BASE}/sessions/sess_abc/messages")
-             .with(body: '{"to":"+33600000001","message_type":"image","content":{"url":"https://img.example.com/photo.jpg"}}')
-             .to_return(status: 200, body: '{"id":"msg_img","message_type":"image"}',
+             .with(body: '{"message":{"to":"+33600000001","message_type":"image","content":"https://img.example.com/photo.jpg"}}')
+             .to_return(status: 200,
+                        body: '{"data":{"id":"msg_img","message_type":"image"}}',
                         headers: FakeServer.json_headers)
 
-      messages.create(to: '+33600000001', message_type: 'image', content: { url: 'https://img.example.com/photo.jpg' })
+      messages.create(to: '+33600000001', message_type: 'image', content: 'https://img.example.com/photo.jpg')
       expect(stub).to have_been_requested
     end
 
     it 'sends a document message' do
       stub = stub_request(:post, "#{FakeServer::BASE}/sessions/sess_abc/messages")
-             .with(body: '{"to":"+33600000001","message_type":"document","content":{"url":"https://example.com/doc.pdf","filename":"doc.pdf"}}')
-             .to_return(status: 200, body: '{"id":"msg_doc","message_type":"document"}',
+             .with(body: '{"message":{"to":"+33600000001","message_type":"document","content":"https://example.com/doc.pdf"}}')
+             .to_return(status: 200,
+                        body: '{"data":{"id":"msg_doc","message_type":"document"}}',
                         headers: FakeServer.json_headers)
 
-      messages.create(to: '+33600000001', message_type: 'document',
-                      content: { url: 'https://example.com/doc.pdf', filename: 'doc.pdf' })
+      messages.create(to: '+33600000001', message_type: 'document', content: 'https://example.com/doc.pdf')
       expect(stub).to have_been_requested
     end
   end

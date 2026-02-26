@@ -4,13 +4,20 @@ require 'openssl'
 
 module WhatsrbCloud
   module WebhookSignature
+    PREFIX = 'sha256='
+
     module_function
 
     def verify?(payload:, secret:, signature:)
       return false if payload.nil? || secret.nil? || signature.nil?
 
-      expected = OpenSSL::HMAC.hexdigest('SHA256', secret, payload)
-      secure_compare(expected, signature)
+      hex = OpenSSL::HMAC.hexdigest('SHA256', secret, payload)
+      expected = "#{PREFIX}#{hex}"
+
+      # Support both "sha256=<hex>" and raw "<hex>" formats
+      to_compare = signature.start_with?(PREFIX) ? signature : "#{PREFIX}#{signature}"
+
+      secure_compare(expected, to_compare)
     end
 
     def secure_compare(a, b)

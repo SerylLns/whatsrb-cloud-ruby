@@ -16,12 +16,23 @@ module WhatsrbCloud
 
       def retrieve(message_id)
         response = @connection.get("/sessions/#{@session_id}/messages/#{message_id}")
-        Objects::Message.new(response)
+        Objects::Message.new(response['data'])
       end
 
       def create(**params)
-        response = @connection.post("/sessions/#{@session_id}/messages", params)
-        Objects::Message.new(response)
+        body = build_message_body(params)
+        response = @connection.post("/sessions/#{@session_id}/messages", { message: body })
+        Objects::Message.new(response['data'])
+      end
+
+      private
+
+      def build_message_body(params)
+        if params[:text]
+          { to: params[:to], message_type: 'text', content: params[:text] }
+        else
+          params.slice(:to, :message_type, :content)
+        end
       end
     end
   end
