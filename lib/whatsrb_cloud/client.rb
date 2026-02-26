@@ -1,0 +1,32 @@
+# frozen_string_literal: true
+
+module WhatsrbCloud
+  class Client
+    attr_reader :connection
+
+    def initialize(api_key: nil, base_url: nil, timeout: nil)
+      config = WhatsrbCloud.configuration
+      @api_key  = api_key  || config.api_key || raise(AuthenticationError, 'API key is required')
+      @base_url = base_url || config.base_url
+      @timeout  = timeout  || config.timeout
+
+      @connection = Connection.new(api_key: @api_key, base_url: @base_url, timeout: @timeout)
+    end
+
+    def sessions
+      Resources::Sessions.new(client: self, connection: @connection)
+    end
+
+    def messages(session_id)
+      Resources::Messages.new(connection: @connection, session_id: session_id)
+    end
+
+    def webhooks
+      Resources::Webhooks.new(connection: @connection)
+    end
+
+    def usage
+      Resources::Usage.new(connection: @connection).fetch
+    end
+  end
+end
