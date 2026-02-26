@@ -3,18 +3,20 @@
 module WhatsrbCloud
   module Objects
     class Message
-      attr_reader :id, :session_id, :to, :status, :message_type, :content, :sent_at, :delivered_at, :created_at
+      attr_reader :id, :session_id, :to, :status, :message_type, :content,
+                  :whatsapp_message_id, :sent_at, :delivered_at, :created_at
 
       def initialize(data)
-        @id           = data['id']
-        @session_id   = data['session_id']
-        @to           = data['to']
-        @status       = data['status']
-        @message_type = data['message_type']
-        @content      = data['content']
-        @sent_at      = parse_time(data['sent_at'])
-        @delivered_at = parse_time(data['delivered_at'])
-        @created_at   = data['created_at']
+        @id                   = data['id']
+        @session_id           = data['session_id']
+        @to                   = data['to']
+        @status               = data['status']
+        @message_type         = data['message_type']
+        @content              = data['content']
+        @whatsapp_message_id  = data['whatsapp_message_id']
+        @sent_at              = parse_time(data['sent_at'])
+        @delivered_at         = parse_time(data['delivered_at'])
+        @created_at           = parse_time(data['created_at'])
       end
 
       def to_h

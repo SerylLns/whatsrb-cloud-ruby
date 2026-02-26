@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "time"
+
 require_relative 'whatsrb_cloud/version'
 require_relative 'whatsrb_cloud/configuration'
 require_relative 'whatsrb_cloud/errors'

@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.name          = 'whatsrb_cloud'
   spec.version       = WhatsrbCloud::VERSION
   spec.authors       = ['SerylLns']
-  spec.email         = ['seryl@whatsrb.com']
+  spec.email         = ['contact@whatsrb.com']
 
   spec.summary       = 'Ruby SDK for the WhatsRB Cloud API'
   spec.description   = 'Official Ruby client for the WhatsRB Cloud API. ' \

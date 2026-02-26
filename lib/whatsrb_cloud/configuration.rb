@@ -9,5 +9,10 @@ module WhatsrbCloud
       @base_url = 'https://api.whatsrb.com'
       @timeout  = 30
     end
+
+    def inspect
+      "#<#{self.class} base_url=#{@base_url.inspect} timeout=#{@timeout} api_key=[FILTERED]>"
+    end
+    alias_method :to_s, :inspect
   end
 end

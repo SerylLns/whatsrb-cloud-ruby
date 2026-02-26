@@ -4,6 +4,11 @@ module WhatsrbCloud
   class Client
     attr_reader :connection
 
+    def inspect
+      "#<#{self.class} base_url=#{@base_url.inspect} api_key=[FILTERED]>"
+    end
+    alias_method :to_s, :inspect
+
     def initialize(api_key: nil, base_url: nil, timeout: nil)
       config = WhatsrbCloud.configuration
       @api_key  = api_key  || config.api_key || raise(AuthenticationError, 'API key is required')

@@ -19,13 +19,27 @@ module WhatsrbCloud
         Objects::Message.new(response['data'])
       end
 
+      VALID_TYPES = %w[text image video audio document location contact].freeze
+
       def create(**params)
+        validate_params!(params)
         body = build_message_body(params)
         response = @connection.post("/sessions/#{@session_id}/messages", { message: body })
         Objects::Message.new(response['data'])
       end
 
       private
+
+      def validate_params!(params)
+        to = params[:to]
+        raise ValidationError, "Phone number is required" if to.nil? || to.empty?
+        raise ValidationError, "Invalid phone number format" unless to.match?(/\A\+\d{1,15}\z/)
+
+        msg_type = params[:message_type] || (params[:text] ? 'text' : nil)
+        if msg_type && !VALID_TYPES.include?(msg_type)
+          raise ValidationError, "Invalid message type: #{msg_type}"
+        end
+      end
 
       def build_message_body(params)
         if params[:text]

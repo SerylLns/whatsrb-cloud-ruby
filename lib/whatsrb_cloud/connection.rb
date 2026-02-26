@@ -14,6 +14,11 @@ module WhatsrbCloud
       @timeout  = timeout
     end
 
+    def inspect
+      "#<#{self.class} base_url=#{@base_url.inspect} api_key=[FILTERED]>"
+    end
+    alias_method :to_s, :inspect
+
     def get(path)
       request(Net::HTTP::Get, path)
     end
@@ -41,8 +46,15 @@ module WhatsrbCloud
     end
 
     def build_http(uri)
+      unless uri.scheme == 'https' || uri.host == 'localhost' || uri.host == '127.0.0.1'
+        raise ArgumentError, "Only HTTPS connections are allowed (got #{uri.scheme}://#{uri.host})"
+      end
+
       http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = uri.scheme == 'https'
+      if uri.scheme == 'https'
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+      end
       http.open_timeout = @timeout
       http.read_timeout = @timeout
       http

@@ -11,8 +11,8 @@ RSpec.describe WhatsrbCloud::WebhookSignature do
       expect(described_class.verify?(payload: payload, secret: secret, signature: prefixed_signature)).to be true
     end
 
-    it 'returns true for a raw hex signature (backwards compat)' do
-      expect(described_class.verify?(payload: payload, secret: secret, signature: hex)).to be true
+    it 'returns false for a raw hex signature without sha256= prefix' do
+      expect(described_class.verify?(payload: payload, secret: secret, signature: hex)).to be false
     end
 
     it 'returns false for an invalid signature' do
