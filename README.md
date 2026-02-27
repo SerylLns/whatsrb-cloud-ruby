@@ -26,15 +26,13 @@
 
 ## Installation
 
+Add to your Gemfile:
+
 ```ruby
-gem "whatsrb_cloud"
+gem "whatsrb_cloud", git: "https://github.com/SerylLns/whatsrb-cloud-ruby"
 ```
 
-Then run `bundle install`, or install directly:
-
-```sh
-gem install whatsrb_cloud
-```
+Then run `bundle install`.
 
 ## Quick Start
 
