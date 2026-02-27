@@ -31,14 +31,19 @@ module WhatsrbCloud
       private
 
       def validate_params!(params)
-        to = params[:to]
-        raise ValidationError, "Phone number is required" if to.nil? || to.empty?
-        raise ValidationError, "Invalid phone number format" unless to.match?(/\A\+\d{1,15}\z/)
+        validate_phone!(params[:to])
+        validate_type!(params[:message_type] || (params[:text] ? 'text' : nil))
+      end
 
-        msg_type = params[:message_type] || (params[:text] ? 'text' : nil)
-        if msg_type && !VALID_TYPES.include?(msg_type)
-          raise ValidationError, "Invalid message type: #{msg_type}"
-        end
+      def validate_phone!(to)
+        raise ValidationError, 'Phone number is required' if to.nil? || to.empty?
+        raise ValidationError, 'Invalid phone number format' unless to.match?(/\A\+\d{1,15}\z/)
+      end
+
+      def validate_type!(msg_type)
+        return unless msg_type && !VALID_TYPES.include?(msg_type)
+
+        raise ValidationError, "Invalid message type: #{msg_type}"
       end
 
       def build_message_body(params)

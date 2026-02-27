@@ -20,21 +20,20 @@ module WhatsrbCloud
     # @return [Boolean]
     def verify?(payload:, secret:, signature:, timestamp: nil, tolerance: TOLERANCE)
       return false if payload.nil? || secret.nil? || signature.nil?
-
-      # Replay protection: reject stale signatures
-      if timestamp
-        ts = Integer(timestamp, exception: false)
-        return false unless ts
-        return false if (Time.now.to_i - ts).abs > tolerance
-      end
-
-      hex = OpenSSL::HMAC.hexdigest('SHA256', secret, payload)
-      expected = "#{PREFIX}#{hex}"
-
-      # Require proper sha256= prefix
       return false unless signature.start_with?(PREFIX)
+      return false if stale_timestamp?(timestamp, tolerance)
 
+      expected = "#{PREFIX}#{OpenSSL::HMAC.hexdigest('SHA256', secret, payload)}"
       secure_compare(expected, signature)
+    end
+
+    def stale_timestamp?(timestamp, tolerance)
+      return false unless timestamp
+
+      ts = Integer(timestamp, exception: false)
+      return true unless ts
+
+      (Time.now.to_i - ts).abs > tolerance
     end
 
     def secure_compare(a, b)

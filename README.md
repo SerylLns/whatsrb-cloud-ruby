@@ -1,8 +1,8 @@
-<h1 align="center">
-  <br />
-  WhatsRB Cloud Ruby SDK
-  <br />
-</h1>
+<p align="center">
+  <img src="logo.png" alt="WhatsRB Cloud" width="80" />
+</p>
+
+<h1 align="center">WhatsRB Cloud Ruby SDK</h1>
 
 <h4 align="center">Official Ruby client for the <a href="https://whatsrb.com">WhatsRB Cloud</a> API.</h4>
 

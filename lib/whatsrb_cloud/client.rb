@@ -7,7 +7,7 @@ module WhatsrbCloud
     def inspect
       "#<#{self.class} base_url=#{@base_url.inspect} api_key=[FILTERED]>"
     end
-    alias_method :to_s, :inspect
+    alias to_s inspect
 
     def initialize(api_key: nil, base_url: nil, timeout: nil)
       config = WhatsrbCloud.configuration
