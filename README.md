@@ -1,28 +1,28 @@
-<p align="center">
-  <img src="https://whatsrb.com/logo.svg" alt="WhatsRB Cloud" width="80" />
-</p>
+<h1 align="center">
+  <br />
+  WhatsRB Cloud Ruby SDK
+  <br />
+</h1>
 
-<h1 align="center">WhatsRB Cloud Ruby SDK</h1>
+<h4 align="center">Official Ruby client for the <a href="https://whatsrb.com">WhatsRB Cloud</a> API.</h4>
 
 <p align="center">
-  <strong>Official Ruby client for the WhatsRB Cloud API.</strong><br />
   Send WhatsApp messages, manage sessions, and handle webhooks — all from Ruby.
 </p>
 
 <p align="center">
-  <a href="https://rubygems.org/gems/whatsrb_cloud"><img src="https://img.shields.io/gem/v/whatsrb_cloud?color=22c55e&label=gem&logo=rubygems&logoColor=white" alt="Gem Version" /></a>
-  <a href="https://github.com/SerylLns/whatsrb-cloud-ruby/actions"><img src="https://img.shields.io/github/actions/workflow/status/SerylLns/whatsrb-cloud-ruby/ci.yml?label=tests&logo=github" alt="CI" /></a>
-  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a>
-  <a href="https://www.ruby-lang.org"><img src="https://img.shields.io/badge/ruby-%3E%3D%203.1-red?logo=ruby&logoColor=white" alt="Ruby" /></a>
+  <a href="https://github.com/SerylLns/whatsrb-cloud-ruby/actions/workflows/ci.yml"><img src="https://github.com/SerylLns/whatsrb-cloud-ruby/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-22c55e" alt="License" /></a>
+  <a href="https://www.ruby-lang.org"><img src="https://img.shields.io/badge/ruby-%3E%3D%203.1-CC342D?logo=ruby&logoColor=white" alt="Ruby" /></a>
 </p>
 
 <p align="center">
-  <a href="https://whatsrb.com">Website</a> &bull;
-  <a href="https://whatsrb.com/docs">Documentation</a> &bull;
+  <a href="https://whatsrb.com">Website</a> &nbsp;&middot;&nbsp;
+  <a href="https://whatsrb.com/docs">Documentation</a> &nbsp;&middot;&nbsp;
   <a href="https://github.com/SerylLns/whatsrb-cloud-ruby">Source</a>
 </p>
 
----
+<br />
 
 ## Installation
 
