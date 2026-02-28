@@ -33,5 +33,17 @@ module WhatsrbCloud
     def usage
       Resources::Usage.new(connection: @connection).fetch
     end
+
+    def business_accounts
+      Resources::BusinessAccounts.new(client: self, connection: @connection)
+    end
+
+    def business_messages(account_id)
+      Resources::BusinessMessages.new(connection: @connection, account_id: account_id)
+    end
+
+    def templates(account_id)
+      Resources::Templates.new(connection: @connection, account_id: account_id)
+    end
   end
 end

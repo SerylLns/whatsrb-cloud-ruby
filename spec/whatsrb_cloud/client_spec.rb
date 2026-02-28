@@ -45,5 +45,17 @@ RSpec.describe WhatsrbCloud::Client do
       result = client.usage
       expect(result['plan']).to eq('free')
     end
+
+    it 'returns BusinessAccounts resource' do
+      expect(client.business_accounts).to be_a(WhatsrbCloud::Resources::BusinessAccounts)
+    end
+
+    it 'returns BusinessMessages resource scoped to account' do
+      expect(client.business_messages('ba_abc')).to be_a(WhatsrbCloud::Resources::BusinessMessages)
+    end
+
+    it 'returns Templates resource scoped to account' do
+      expect(client.templates('ba_abc')).to be_a(WhatsrbCloud::Resources::Templates)
+    end
   end
 end
