@@ -18,6 +18,23 @@ module WhatsrbCloud
         response = @connection.get("/business_accounts/#{id}")
         Objects::BusinessAccount.new(response['data'], client: @client)
       end
+
+      def connect
+        response = @connection.post('/business_accounts/connect')
+        Objects::ConnectRequest.new(response['data'], client: @client)
+      end
+
+      def connect_manual(**params)
+        response = @connection.post('/business_accounts', { business_account: params })
+        Objects::BusinessAccount.new(response['data'], client: @client)
+      end
+
+      alias_method :create, :connect_manual
+
+      def delete(id)
+        @connection.delete("/business_accounts/#{id}")
+        true
+      end
     end
   end
 end

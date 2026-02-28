@@ -38,6 +38,10 @@ module WhatsrbCloud
       Resources::BusinessAccounts.new(client: self, connection: @connection)
     end
 
+    def connects
+      Resources::Connects.new(client: self, connection: @connection)
+    end
+
     def business_messages(account_id)
       Resources::BusinessMessages.new(connection: @connection, account_id: account_id)
     end
